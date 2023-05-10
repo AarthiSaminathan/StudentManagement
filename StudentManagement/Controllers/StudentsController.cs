@@ -16,7 +16,7 @@ namespace StudentManagement.Controllers
         {
             _studentsService = studentsService;
         }
-
+            
         [HttpPost("add-student-with-term")]
         public IActionResult AddStudent(StudentVM student)
         {
@@ -24,12 +24,12 @@ namespace StudentManagement.Controllers
             return Ok();
         }
 
-        //[HttpGet("get-all-student")]
-        //public IActionResult GetAllStudents() 
-        //{
-        //    var allstudents= _studentsService.GetAllStudents();
-        //    return Ok(allstudents);
-        //}
+        [HttpGet("get-all-student")]
+        public IActionResult GetAllStudents()
+        {     
+            var allstudents = _studentsService.GetAllStudents();
+            return Ok(allstudents);
+        }
 
         //[HttpGet("get-termpercentage-above-eighty")]
         //public IActionResult GetTermPercentageAboveEighty(int rollno,int academicyear)

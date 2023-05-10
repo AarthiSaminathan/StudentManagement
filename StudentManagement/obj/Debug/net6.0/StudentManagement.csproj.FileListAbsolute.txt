@@ -62,3 +62,4 @@ C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net6.0\StudentManagement.pdb
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net6.0\StudentManagement.genruntimeconfig.cache
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net6.0\ref\StudentManagement.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Newtonsoft.Json.dll

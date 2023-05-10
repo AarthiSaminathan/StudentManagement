@@ -20,7 +20,6 @@ namespace StudentManagement.Data.Services
                 RollNo = student.RollNo,
                 Name = student.Name,
                 Standard = student.Standard,
-                Section = student.Section,
                 AcademicYear = student.AcademicYear,
                 Gender = student.Gender
    
@@ -29,17 +28,19 @@ namespace StudentManagement.Data.Services
             _context.Add(_student);
             _context.SaveChanges();
 
-            foreach(var id in student.MarkId)
-            {
-                var _student_term = new StudentTerm()
-                {
-                    StudentId = _student.Id,
-                    TermId = id
-                };
-                _context.StudentTerms.Add(_student_term);
-                _context.SaveChanges();
-            }
+            //foreach(var id in student.MarkId)
+            //{
+            //    var _student_term = new StudentTerm()
+            //    {
+            //        StudentId = _student.Id,
+            //        TermId = id
+            //    };
+            //    _context.Students.Add(_student_term);
+            //    _context.SaveChanges();
+            //}
         }
+
+      
 
         public List<StudentWithTermAndMarkVM> GetAllStudents()
         {
@@ -48,22 +49,10 @@ namespace StudentManagement.Data.Services
                 RollNo = student.RollNo,
                 Name = student.Name,
                 Standard = student.Standard,
-                Section = student.Section,
                 AcademicYear = student.AcademicYear,
                 Gender = student.Gender,
-                TermName = student.StudentTerms.Select(x => new Term()
-                {
-                    TermName = x.Term.TermName
-                }).ToList(),
-                Marks= student.Marks.Select(x=>new Mark()
-                {
-                    Tamil=x.Tamil,
-                    English=x.English,
-                    Maths=x.Maths,
-                    Physics=x.Physics,
-                    Chemistry=x.Chemistry,
-                    ComputerScience=x.ComputerScience
-                }).ToList()
+                
+                
              }).ToList();
             return _allStudents;
             
@@ -76,23 +65,9 @@ namespace StudentManagement.Data.Services
                 RollNo = student.RollNo,
                 Name = student.Name,
                 Standard=student.Standard,
-                Section = student.Section,
                 AcademicYear=student.AcademicYear,
                 Gender = student.Gender,
-                TermName = student.StudentTerms.Select(x => new Term()
-                {
-                    TermName = x.Term.TermName
-                }).ToList(),
-                Marks = student.Marks.Select(x => new Mark()
-                {
-                    Tamil = x.Tamil,
-                    English = x.English,
-                    Maths = x.Maths,
-                    Physics = x.Physics,
-                    Chemistry = x.Chemistry,
-                    ComputerScience = x.ComputerScience
-                }).ToList()
-
+                
             }).FirstOrDefault();
 
             return _student;
@@ -112,7 +87,6 @@ namespace StudentManagement.Data.Services
                 _student.RollNo = student.RollNo;
                 _student.Name = student.Name;
                 _student.Standard = student.Standard;
-                _student.Section = student.Section;
                 _student.AcademicYear = student.AcademicYear;
                 _student.Gender = student.Gender;
                 _context.SaveChanges();
