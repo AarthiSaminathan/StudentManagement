@@ -1,4 +1,4 @@
-﻿using StudentManagement.Data.Models;
+﻿ using StudentManagement.Data.Models;
 using StudentManagement.Data.ViewModels;
 
 namespace StudentManagement.Data.Services
@@ -6,18 +6,21 @@ namespace StudentManagement.Data.Services
     public class StudentsService
     {
         private AppDbContext _context;
+        private readonly ILogger<StudentsService> _logger;
 
-        public StudentsService(AppDbContext context)
+
+        public StudentsService(AppDbContext context,ILogger<StudentsService> logger)
         {
             _context = context;
+            _logger= logger;
         }
 
-        public void AddStudentWithTerm(StudentVM student)
+       
+        public int AddStudentWithTerm(StudentVM student)
         {
+            _logger.LogInformation($"AddStudentWithTerm:StudentsService",GetType().Name);
             var _student = new Student()
             {
-                Id = student.Id,
-                RollNo = student.RollNo,
                 Name = student.Name,
                 Standard = student.Standard,
                 AcademicYear = student.AcademicYear,
@@ -27,81 +30,69 @@ namespace StudentManagement.Data.Services
             };
             _context.Add(_student);
             _context.SaveChanges();
-
-            //foreach(var id in student.MarkId)
-            //{
-            //    var _student_term = new StudentTerm()
-            //    {
-            //        StudentId = _student.Id,
-            //        TermId = id
-            //    };
-            //    _context.Students.Add(_student_term);
-            //    _context.SaveChanges();
-            //}
+            _logger.LogInformation($"Student {student.Name}");
+            return _student.Id;
         }
 
       
 
         public List<StudentWithTermAndMarkVM> GetAllStudents()
         {
+            _logger.LogInformation($"GetAllStudents:StudentsService", GetType().Name);
             var _allStudents = _context.Students.Select(student => new StudentWithTermAndMarkVM()
             {
-                RollNo = student.RollNo,
                 Name = student.Name,
                 Standard = student.Standard,
                 AcademicYear = student.AcademicYear,
-                Gender = student.Gender,
-                
-                
+                Gender = student.Gender
              }).ToList();
+            _logger.LogInformation($"Student{_allStudents}");
             return _allStudents;
             
         }
 
         public StudentWithTermAndMarkVM GetStudentById(int rollno)
         {
-            var _student = _context.Students.Where(n => n.RollNo == rollno).Select(student => new StudentWithTermAndMarkVM()
+            _logger.LogInformation($"GetStudentById:StudentsService", GetType().Name);
+            var _student = _context.Students.Where(n => n.Id == rollno).Select(student => new StudentWithTermAndMarkVM()
             {
-                RollNo = student.RollNo,
                 Name = student.Name,
-                Standard=student.Standard,
-                AcademicYear=student.AcademicYear,
-                Gender = student.Gender,
-                
+                Standard = student.Standard,
+                AcademicYear = student.AcademicYear,
+                Gender = student.Gender
             }).FirstOrDefault();
-
+            _logger.LogInformation($"Student{_student}");
             return _student;
         }
 
-       
-          
         
-        
-
         public Student UpdateStudentById(int rollno, StudentVM student)
         {
-            var _student = _context.Students.FirstOrDefault(n => n.RollNo == rollno);
+            _logger.LogInformation($"UpdateStudentById:StudentsService", GetType().Name);
+            var _student = _context.Students.FirstOrDefault(n => n.Id == rollno);
             if (_student != null)
             {
                 
-                _student.RollNo = student.RollNo;
                 _student.Name = student.Name;
                 _student.Standard = student.Standard;
                 _student.AcademicYear = student.AcademicYear;
                 _student.Gender = student.Gender;
                 _context.SaveChanges();
             }
+            _logger.LogInformation($"Student{_student}");
             return _student;
         }
 
         public void DeleteStudentById(int rollno)
         {
-            var _student = _context.Students.FirstOrDefault(n => n.RollNo== rollno);
+            _logger.LogInformation($"DeleteStudentById:StudentsService", GetType().Name);
+            var _student = _context.Students.FirstOrDefault(n => n.Id== rollno);
             if (_student != null)
             {
                 _context.Students.Remove(_student);
                 _context.SaveChanges();
             }
+            _logger.LogInformation($"Student{_student}");
 
         }
 

@@ -74,9 +74,6 @@ namespace StudentManagement.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("RollNo")
-                        .HasColumnType("int");
-
                     b.Property<int>("Standard")
                         .HasColumnType("int");
 

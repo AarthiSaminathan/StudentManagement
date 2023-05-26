@@ -10,7 +10,7 @@ using StudentManagement;
 namespace StudentManagement.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230505052531_MyFirstMigration")]
+    [Migration("20230511112520_MyFirstMigration")]
     partial class MyFirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,9 +75,6 @@ namespace StudentManagement.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<int>("RollNo")
-                        .HasColumnType("int");
 
                     b.Property<int>("Standard")
                         .HasColumnType("int");

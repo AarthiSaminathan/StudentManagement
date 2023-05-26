@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using StudentManagement.Data.Services;
 using StudentManagement.Data.ViewModels;
@@ -11,56 +10,113 @@ namespace StudentManagement.Controllers
     public class MarksController : ControllerBase
     {
         private MarkService _markService;
+        private readonly ILogger<MarksController> _logger;
 
-        public MarksController(MarkService markService)
+
+        public MarksController(MarkService markService, ILogger<MarksController> logger)
         {
             _markService = markService;
+            _logger = logger;
         }
 
         [HttpPost("add-mark")]
-        public IActionResult AddTerm(MarkVM mark)
+        public IActionResult AddTermMark(MarkVM mark)
         {
-            _markService.AddMark(mark);
-            return Ok();
+            try
+            {
+                if(_markService.TermCount(mark.TermId,mark.StudentId)<1)
+                {
+                    _logger.LogInformation("Inside Controller:Markscontroller");
+                    _logger.LogInformation($"Calling AddTermMark");
+                    var marks = _markService.AddMark(mark);
+                    _logger.LogInformation($"The response for the AddTermMarks {JsonConvert.SerializeObject(mark)}");
+                    return Ok(marks);
+                }
+                else
+                {
+                    return BadRequest("Repeated TermId is found");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInformation("Invalid Marks added");
+                return BadRequest(ex.Message);
+            }
         }
-        //[HttpGet("get-percentage-above-eighty")]
-        //public IActionResult GetTermWisePercentage(int academicYear)
-        //{
-
-        //    var result=_markService.GetTotalMarks(academicYear);
-        //    return Ok(JsonConvert.SerializeObject(result));
-        //}
-
+       
         [HttpGet("get-percentage-above-eighty")]
-        public IActionResult GetTermWisePercentage(int academicYear)
+        public IActionResult GetTermWisePercentage(int academicYear,int percentage)
         {
-
-            Dictionary<string, Dictionary<string, int>> result =_markService.GetTotalMarks(academicYear);
-            return Ok(result);
+            try
+            {
+                _logger.LogInformation("Inside Controller:Markscontroller");
+                _logger.LogInformation($"Calling GetTermWisePercentage");
+                Dictionary<string, Dictionary<string, int>> result = _markService.GetTotalMarks(academicYear,percentage);
+                _logger.LogInformation($"The response for the GetTermWisePercentageAboveEighty{JsonConvert.SerializeObject(result)}");
+                return Ok(result);
+            }
+            catch
+            {
+                _logger.LogInformation("Not Found");
+                return BadRequest();
+            }
         }
 
         [HttpGet("get-percentage-above-eighty-overall")]
-        public IActionResult GetOvetallPercenageAboveEighty(int academicYear)
+        public IActionResult GetOvetallPercenageAboveEighty(int academicYear,int percentage)
         {
-
-            Dictionary<string, Dictionary<string, double>> result = _markService.GetOveralTotalMarks(academicYear);
-            return Ok(result);
+            try
+            {
+                _logger.LogInformation("Inside Controller:Markscontroller");
+                _logger.LogInformation($"Calling GetTermWisePercentage");
+                Dictionary<string, double> result = _markService.GetOverallTotalMarks(academicYear, percentage);
+                _logger.LogInformation($"The response for the GetOvetallPercenageAboveEighty{JsonConvert.SerializeObject(result)}");
+                return Ok(result);
+            }
+            catch 
+            {
+                _logger.LogInformation("Not Found");
+                return BadRequest(); 
+            }
         }
 
         [HttpGet("get-subjectwise-mark-above-eighty")]
-        public IActionResult GetSubjectWiseMarksAboveEighty(int academicYear,string subject)
+        public IActionResult GetSubjectWiseMarksAboveEighty(int academicYear,string subject,int percentage)
         {
+            try
+            {
+                _logger.LogInformation("Inside Controller:Markscontroller" );
+                _logger.LogInformation($"Calling GetSubjectWiseMarksAboveEighty");
+                Dictionary<string, Dictionary<string, int>> result = _markService.GetSubjectWiseMarks(academicYear, subject,percentage);
+                _logger.LogInformation($"The response for the GetSubjectWiseMarksAboveEighty{JsonConvert.SerializeObject(result)}");
+                return Ok(result);
+            }
+            catch 
+            {
+                _logger.LogInformation("Not Found");
+                return BadRequest();
+            }
 
-            Dictionary<string, Dictionary<string, int>> result = _markService.GetSubjectWiseMarks(academicYear,subject);
-            return Ok(result);
         }
 
         [HttpGet("get-subjectwise-mark-above-eighty-overall")]
-        public IActionResult GetSubjectWiseOverAllPercentageAboveEighty(int academicYear,string subject)
+        public IActionResult GetSubjectWiseOverAllPercentageAboveEighty(int academicYear,string subject,int percentage)
         {
+            try
+            {
+                _logger.LogInformation("Inside Controller:Markscontroller");
+                _logger.LogInformation($"Calling GetSubjectWiseOverAllPercentageAboveEighty");
+                Dictionary<string, double> result = _markService.GetSubjectWiseOverAllPercentage(academicYear, subject, percentage);
+                _logger.LogInformation($"The response for the GetSubjectWiseOverAllPercentageAboveEighty{JsonConvert.SerializeObject(result)}");
+                return Ok(result);
+            }
+            catch
+            {
+                _logger.LogInformation("Not Found");
+                return BadRequest(); 
+            }
 
-            Dictionary<string, Dictionary<string, double>> result = _markService.GetSubjectWiseOverAllPercentage(academicYear,subject);
-            return Ok(result);
         }
 
     }
