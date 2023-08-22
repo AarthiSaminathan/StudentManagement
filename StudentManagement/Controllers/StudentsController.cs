@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using StudentManagement.Data.Helper;
 using StudentManagement.Data.Models;
 using StudentManagement.Data.Services;
 using StudentManagement.Data.ViewModels;
-
+using StudentManagement.MenuService;
 
 namespace StudentManagement.Controllers
 {
@@ -13,24 +16,48 @@ namespace StudentManagement.Controllers
     public class StudentsController : ControllerBase
     {
         public StudentsService _studentsService;
-
+        public FileValidationService _fileValidationService;
         private readonly ILogger<StudentsController> _logger;
-
-        public StudentsController(StudentsService studentsService,ILogger<StudentsController> logger )
+        private readonly IHubContext<UploadHub> _hubContext;
+        private readonly AppDbContext _context;
+        public StudentsController(AppDbContext context,StudentsService studentsService,ILogger<StudentsController> logger, FileValidationService fileValidationService,IHubContext<UploadHub> hubContext)
         {
             _studentsService = studentsService;
             _logger = logger;
+            _hubContext = hubContext;
+            _context = context;
+            _fileValidationService = fileValidationService;
         }
             
-        [HttpPost("add-student-with-term")]
+        [HttpPost("add-student")]
         public IActionResult AddStudent(StudentVM student)
         {
             _logger.LogInformation("Inside Controller:StudentController");
             _logger.LogInformation($"Calling AddStudent");
-            var studentDetails=_studentsService.AddStudentWithTerm(student);
-            _logger.LogInformation($"The response for the AddStudent {JsonConvert.SerializeObject(student)}");
+            var studentDetails=_studentsService.AddStudent(student);
+            _logger.LogInformation($"The response for the AddStudent {JsonConvert.SerializeObject(student)}");     
             return Ok(studentDetails);
         }
+        [HttpPost("add-student-by-file")]
+        public async Task<IActionResult> AddStudentByFile(IFormFile file)
+        {
+            var Filename = file.FileName;
+            var Files = file.OpenReadStream();
+            _logger.LogInformation("Inside Controller:StudentController");
+            _logger.LogInformation($"Calling AddStudent");
+            if (_context.FileValidation.Any(f => f.FileName == Filename))
+            {
+                _logger.LogInformation($"File {Filename} already exists.");
+                return BadRequest("File already exists");
+            }
+            else
+            {
+                var student = _studentsService.AddStudentByFile(file.OpenReadStream());
+                _logger.LogInformation($"The response for the AddStudent {JsonConvert.SerializeObject(file)}");
+                return Ok(student);
+            }
+        }
+
 
         [HttpGet("get-all-student")]
         public IActionResult GetAllStudents()

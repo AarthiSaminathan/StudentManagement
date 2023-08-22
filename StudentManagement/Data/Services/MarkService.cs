@@ -37,7 +37,7 @@ namespace StudentManagement.Data.Services
                     Chemistry = mark.Chemistry,
                     ComputerScience = mark.ComputerScience
                 };
-                
+                 
                 _context.Marks.Add(_mark);
                 _context.SaveChanges();
                 _logger.LogInformation($"Mark{_mark}");
@@ -49,7 +49,7 @@ namespace StudentManagement.Data.Services
                 throw; 
             }                                                                                   
            
-
+             
         }
 
 

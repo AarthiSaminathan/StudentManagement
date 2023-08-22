@@ -5,6 +5,7 @@ namespace StudentManagement.Data.ViewModels
 {
     public class StudentVM
     {
+
         [Required(ErrorMessage = "This field is required")]
         [RegularExpression(@"^[a-zA-Z-.]+$", ErrorMessage = "Only alpha is allowed")]
         public string Name { get; set; }
@@ -20,8 +21,8 @@ namespace StudentManagement.Data.ViewModels
 
     public class StudentWithTermAndMarkVM
     {
-        internal ILogger<Student> _logger;
 
+        public int Id { get;set; }
         public string Name { get; set; }
         public int Standard { get; set; }
         public int AcademicYear { get; set; }

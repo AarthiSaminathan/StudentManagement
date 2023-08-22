@@ -63,3 +63,11 @@ C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net6.0\StudentManagement.genruntimeconfig.cache
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\obj\Debug\net6.0\ref\StudentManagement.dll
 C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\System.Drawing.Icons.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\CsvHelper.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Microsoft.Owin.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Microsoft.Owin.Security.dll
+C:\Users\aarthi.s\source\repos\StudentManagement\StudentManagement\bin\Debug\net6.0\Owin.dll

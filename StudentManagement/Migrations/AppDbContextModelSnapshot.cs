@@ -97,6 +97,121 @@ namespace StudentManagement.Migrations
                     b.ToTable("Terms");
                 });
 
+            modelBuilder.Entity("StudentManagement.Menu.AdminDashboard", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("active")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("iconUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("menu")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("parentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.ToTable("AdminDashboards");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.FileValidation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FileValidation");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.Menu_Submenu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdmindashboardId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubmenuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdmindashboardId");
+
+                    b.HasIndex("SubmenuId");
+
+                    b.ToTable("Menu_Submenus");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.MenuDashboard", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("active")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("iconUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("menu")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("parentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.ToTable("MenuDashboard");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.Submenu", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("url")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Submenus");
+                });
+
             modelBuilder.Entity("StudentManagement.Data.Models.Mark", b =>
                 {
                     b.HasOne("StudentManagement.Data.Models.Student", "Student")
@@ -114,6 +229,35 @@ namespace StudentManagement.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.Menu_Submenu", b =>
+                {
+                    b.HasOne("StudentManagement.Menu.AdminDashboard", "AdminDashboard")
+                        .WithMany("Menu_Submenus")
+                        .HasForeignKey("AdmindashboardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentManagement.Menu.Submenu", "Submenu")
+                        .WithMany("Menu_Submenus")
+                        .HasForeignKey("SubmenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdminDashboard");
+
+                    b.Navigation("Submenu");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.AdminDashboard", b =>
+                {
+                    b.Navigation("Menu_Submenus");
+                });
+
+            modelBuilder.Entity("StudentManagement.Menu.Submenu", b =>
+                {
+                    b.Navigation("Menu_Submenus");
                 });
 #pragma warning restore 612, 618
         }

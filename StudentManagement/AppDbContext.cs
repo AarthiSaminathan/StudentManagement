@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentManagement.Data.Models;
+using StudentManagement.Menu;
 
 namespace StudentManagement
 {
@@ -45,14 +46,24 @@ namespace StudentManagement
         public DbSet<Student> Students { get; set; }
         public DbSet<Term> Terms { get; set; }
         public DbSet<Mark> Marks { get; set; }
+        public DbSet<AdminDashboard> AdminDashboards { get; set; }
+        public DbSet<Submenu> Submenus { get; set; }
+        public DbSet<Menu_Submenu> Menu_Submenus { get; set; }
+        public DbSet<FileValidation> FileValidation { get; set; }
+        public DbSet<MenuDashboard> MenuDashboard { get; set; }
 
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Menu_Submenu>()
+                .HasOne(m => m.AdminDashboard)
+                .WithMany(sm => sm.Menu_Submenus)
+                .HasForeignKey(m => m.AdmindashboardId);
 
-
-
-
-
-
+            modelBuilder.Entity<Menu_Submenu>()
+                .HasOne(m => m.Submenu)
+                .WithMany(sm => sm.Menu_Submenus)
+                .HasForeignKey(m => m.SubmenuId);
+        }
 
     }
 }

@@ -15,8 +15,7 @@ namespace StudentManagement.Data.Helper
         public ILogger CreateLogger(string categoryName)
         {
             return new CorrelationIdLogger(_httpContextAccessor);
-        }
-
+        }   
         public void Dispose()
         {
             
@@ -54,7 +53,7 @@ namespace StudentManagement.Data.Helper
             {
                 Message = "Student Management",
                 Description=formatter(state,exception),
-                CorrelationId=correlationId,
+                CorrelationId=correlationId, 
                 RequestId=Guid.NewGuid().ToString(),
                 EventTime=DateTime.Now,
                 ServiceName="Student Management"
